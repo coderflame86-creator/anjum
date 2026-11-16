@@ -62,14 +62,6 @@ try {
         );
     ");
 
-    // Seed default admin if table is empty
-    $stmt = $db->query("SELECT COUNT(*) as count FROM admins");
-    if ($stmt->fetch()['count'] == 0) {
-        $defaultPassword = password_hash('admin123', PASSWORD_BCRYPT);
-        $insertAdmin = $db->prepare("INSERT INTO admins (username, password, email) VALUES (?, ?, ?)");
-        $insertAdmin->execute(['admin', $defaultPassword, 'contact.anjum3@gmail.com']);
-    }
-
     // Seed default site settings if table is empty
     $stmt = $db->query("SELECT COUNT(*) as count FROM site_settings");
     if ($stmt->fetch()['count'] == 0) {

@@ -1,13 +1,38 @@
 DirectoryIndex index.php index.html
 
+# Prevent directory indexing
+Options -Indexes
+
+# Block sensitive files and extensions
+<FilesMatch "\.(sqlite|sqlite3|db|env|git|bak|log|ini|sh|bat)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Block direct access to data and includes directories
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
     
+    # Block internal folders
+    RewriteRule ^(data|includes)/ - [F,L]
+
     # Redirect legacy static html requests to dynamic pages
     RewriteRule ^scam-alert\.html$ page.php?slug=scam-alert [R=301,L]
     RewriteRule ^privacy-policy\.html$ page.php?slug=privacy-policy [R=301,L]
     RewriteRule ^disclaimer\.html$ page.php?slug=disclaimer [R=301,L]
     RewriteRule ^terms-and-conditions\.html$ page.php?slug=terms-and-conditions [R=301,L]
     RewriteRule ^index\.html$ index.php [R=301,L]
+</IfModule>
+
+# Security HTTP Headers
+<IfModule mod_headers.c>
+    Header set X-XSS-Protection "1; mode=block"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-Content-Type-Options "nosniff"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>

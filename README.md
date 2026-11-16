@@ -25,15 +25,14 @@ You can also run this directly in your XAMPP Apache setup (`C:\xampp\htdocs\anju
 
 ---
 
-## 🔐 Default Admin Login Credentials
+## 🔐 Admin Portal Security & Initial Setup
 
-| Field | Value |
-|---|---|
-| **Admin URL** | [http://localhost:8000/admin/](http://localhost:8000/admin/) |
-| **Username** | `admin` |
-| **Password** | `admin123` |
-
-*(You can change your username, email, and password at any time in the **Security & Password** section of the Admin Panel).*
+To ensure strict security and eliminate open passwords:
+1. When opening the admin portal for the first time at **[http://localhost:8000/admin/](http://localhost:8000/admin/)**, you will be guided to the **First-Time Security Setup Wizard** (`/admin/setup.php`).
+2. Set your own private administrator username, email, and strong password (minimum 8 characters).
+3. Your credentials are securely hashed using `bcrypt` (cost 12). Once your master administrator account is established, the setup wizard is permanently locked.
+4. Brute-force rate limiting actively protects against dictionary attacks by enforcing a lockout after 5 consecutive failed attempts.
+5. All database directories and sensitive files are blocked from direct public web access.
 
 ---
 

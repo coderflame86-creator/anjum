@@ -1,6 +1,12 @@
 <?php
-// admin/login.php - Admin Login Interface
+// admin/login.php - Secure Admin Login Interface
 require_once __DIR__ . '/../includes/functions.php';
+
+// If no admin exists yet, redirect to the initial setup wizard
+if (!admin_exists()) {
+    header("Location: setup.php");
+    exit;
+}
 
 // If already logged in, redirect to dashboard
 if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
@@ -10,37 +16,72 @@ if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true
 
 $error = '';
 
+// Rate limiting: max 5 failed attempts per 10 minutes
+$lockoutTime = 600; // 10 minutes
+$maxAttempts = 5;
+
+if (!isset($_SESSION['login_attempts'])) {
+    $_SESSION['login_attempts'] = 0;
+    $_SESSION['last_attempt_time'] = time();
+}
+
+// Reset counter if lockout period has expired
+if (time() - $_SESSION['last_attempt_time'] > $lockoutTime) {
+    $_SESSION['login_attempts'] = 0;
+}
+
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
-    $csrf = $_POST['csrf_token'] ?? '';
-    if (!verify_csrf_token($csrf)) {
-        $error = 'Security session expired. Please refresh and try again.';
+    // Check brute-force lockout
+    if ($_SESSION['login_attempts'] >= $maxAttempts) {
+        $remaining = $lockoutTime - (time() - $_SESSION['last_attempt_time']);
+        $minutes = ceil($remaining / 60);
+        $error = "Too many failed login attempts. For security, please wait {$minutes} minute(s) before trying again.";
     } else {
-        $username = trim($_POST['username'] ?? '');
-        $password = trim($_POST['password'] ?? '');
-
-        if (empty($username) || empty($password)) {
-            $error = 'Please enter both username and password.';
+        $csrf = $_POST['csrf_token'] ?? '';
+        if (!verify_csrf_token($csrf)) {
+            $error = 'Security session expired. Please refresh and try again.';
         } else {
-            // Find admin in database
-            $stmt = $db->prepare("SELECT * FROM admins WHERE username = ?");
-            $stmt->execute([$username]);
-            $admin = $stmt->fetch();
+            $username = trim($_POST['username'] ?? '');
+            $password = $_POST['password'] ?? '';
 
-            if ($admin && password_verify($password, $admin['password'])) {
-                // Successful login
-                $_SESSION['admin_logged_in'] = true;
-                $_SESSION['admin_id'] = $admin['id'];
-                $_SESSION['admin_username'] = $admin['username'];
-
-                // Update last login
-                $update = $db->prepare("UPDATE admins SET last_login = CURRENT_TIMESTAMP WHERE id = ?");
-                $update->execute([$admin['id']]);
-
-                set_flash('success', 'Welcome back, ' . htmlspecialchars($admin['username']) . '!');
-                header("Location: index.php");
-                exit;
+            if (empty($username) || empty($password)) {
+                $error = 'Please enter both username and password.';
             } else {
-                $error = 'Invalid username or password.';
+                // Find admin in database
+                $stmt = $db->prepare("SELECT * FROM admins WHERE username = ?");
+                $stmt->execute([$username]);
+                $admin = $stmt->fetch();
+
+                if ($admin && password_verify($password, $admin['password'])) {
+                    // Reset failed attempts on success
+                    $_SESSION['login_attempts'] = 0;
+
+                    // Prevent session fixation
+                    session_regenerate_id(true);
+
+                    // Successful login
+                    $_SESSION['admin_logged_in'] = true;
+                    $_SESSION['admin_id'] = $admin['id'];
+                    $_SESSION['admin_username'] = $admin['username'];
+
+                    // Update last login timestamp
+                    $update = $db->prepare("UPDATE admins SET last_login = CURRENT_TIMESTAMP WHERE id = ?");
+                    $update->execute([$admin['id']]);
+
+                    set_flash('success', 'Welcome back, ' . htmlspecialchars($admin['username']) . '!');
+                    header("Location: index.php");
+                    exit;
+                } else {
+                    $_SESSION['login_attempts']++;
+                    $_SESSION['last_attempt_time'] = time();
+                    $remainingAttempts = $maxAttempts - $_SESSION['login_attempts'];
+
+                    if ($remainingAttempts > 0) {
+                        $error = "Invalid username or password. ({$remainingAttempts} attempts remaining)";
+                    } else {
+                        $error = "Too many failed attempts. Login locked for 10 minutes.";
+                    }
+                }
             }
         }
     }
@@ -63,7 +104,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         <div class="login-logo">
             <img src="../assets/images/logo.jpg" alt="Anjum Iqbal Logo" onerror="this.src='../logo.jpg'">
             <h2>Admin Control Panel</h2>
-            <p>Anjum Iqbal Management System</p>
+            <p>Authorized Personnel Only</p>
         </div>
 
         <?php if (!empty($error)): ?>
@@ -72,28 +113,21 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
             </div>
         <?php endif; ?>
 
-        <!-- Helper hint for default initial setup -->
-        <div style="background: rgba(16, 185, 129, 0.1); border: 1px dashed rgba(16, 185, 129, 0.4); border-radius: 8px; padding: 12px 14px; margin-bottom: 20px; font-size: 0.82rem; color: #a7f3d0;">
-            <strong>Default Credentials:</strong><br>
-            Username: <code style="color: #fff; background: rgba(0,0,0,0.3); padding: 2px 5px; border-radius: 4px;">admin</code> &nbsp;|&nbsp; 
-            Password: <code style="color: #fff; background: rgba(0,0,0,0.3); padding: 2px 5px; border-radius: 4px;">admin123</code>
-        </div>
-
         <form method="POST" action="login.php">
             <input type="hidden" name="csrf_token" value="<?= csrf_token() ?>">
 
             <div class="adm-form-group">
                 <label for="username">Admin Username</label>
-                <input type="text" id="username" name="username" class="adm-input" placeholder="e.g. admin" required autofocus>
+                <input type="text" id="username" name="username" class="adm-input" placeholder="Enter username" required autofocus autocomplete="username">
             </div>
 
             <div class="adm-form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" class="adm-input" placeholder="••••••••" required>
+                <input type="password" id="password" name="password" class="adm-input" placeholder="••••••••" required autocomplete="current-password">
             </div>
 
             <button type="submit" class="adm-btn adm-btn-primary" style="width: 100%; justify-content: center; margin-top: 10px; padding: 12px;">
-                <span>Sign In to Admin</span>
+                <span>Sign In Securely</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
             </button>
         </form>

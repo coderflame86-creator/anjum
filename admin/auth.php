@@ -3,6 +3,11 @@
 
 require_once __DIR__ . '/../includes/functions.php';
 
+if (!admin_exists()) {
+    header("Location: setup.php");
+    exit;
+}
+
 if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
     header("Location: login.php");
     exit;

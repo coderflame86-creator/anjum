@@ -9,10 +9,39 @@ if (session_status() === PHP_SESSION_NONE) {
     if (is_dir($sessionDir) && is_writable($sessionDir)) {
         session_save_path($sessionDir);
     }
+    
+    // Secure Session Cookie Settings
+    if (!headers_sent()) {
+        @ini_set('session.cookie_httponly', 1);
+        @ini_set('session.use_only_cookies', 1);
+        @ini_set('session.cookie_samesite', 'Strict');
+    }
+    
     @session_start();
 }
 
+// Security HTTP Headers
+if (!headers_sent()) {
+    header('X-Frame-Options: SAMEORIGIN');
+    header('X-Content-Type-Options: nosniff');
+    header('X-XSS-Protection: 1; mode=block');
+    header('Referrer-Policy: strict-origin-when-cross-origin');
+}
+
 require_once __DIR__ . '/db.php';
+
+/**
+ * Check if an administrator account has been set up
+ */
+function admin_exists() {
+    global $db;
+    try {
+        $stmt = $db->query("SELECT COUNT(*) FROM admins");
+        return ((int)$stmt->fetchColumn()) > 0;
+    } catch (Exception $e) {
+        return false;
+    }
+}
 
 /**
  * Fetch a site setting value by key

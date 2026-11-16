@@ -12,10 +12,6 @@ echo.
 echo   - Public Website:  http://localhost:8000/
 echo   - Admin Panel:     http://localhost:8000/admin/
 echo.
-echo   Default Admin Login:
-echo   - Username: admin
-echo   - Password: admin123
-echo.
 echo   Press Ctrl+C in this terminal window to stop the server anytime.
 echo =========================================================================
 echo.
@@ -27,3 +23,4 @@ IF EXIST "C:\xampp\php\php.exe" (
 )
 
 pause
+
