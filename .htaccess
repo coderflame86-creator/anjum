@@ -1,0 +1,13 @@
+DirectoryIndex index.php index.html
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    
+    # Redirect legacy static html requests to dynamic pages
+    RewriteRule ^scam-alert\.html$ page.php?slug=scam-alert [R=301,L]
+    RewriteRule ^privacy-policy\.html$ page.php?slug=privacy-policy [R=301,L]
+    RewriteRule ^disclaimer\.html$ page.php?slug=disclaimer [R=301,L]
+    RewriteRule ^terms-and-conditions\.html$ page.php?slug=terms-and-conditions [R=301,L]
+    RewriteRule ^index\.html$ index.php [R=301,L]
+</IfModule>
