@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Close on link click
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
+                if (window.innerWidth <= 992) {
                     navLinks.classList.remove('open');
                     mobileBtn.setAttribute('aria-expanded', 'false');
                     mobileBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';

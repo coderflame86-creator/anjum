@@ -26,7 +26,7 @@ $pageDesc = isset($pageDesc) ? $pageDesc : 'Anjum Iqbal - Free digital educator 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <!-- Modern Dark Theme Stylesheet -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=<?= file_exists(__DIR__ . '/../assets/css/style.css') ? filemtime(__DIR__ . '/../assets/css/style.css') : '2.0' ?>">
     
     <link rel="icon" type="image/jpeg" href="assets/images/logo.jpg">
 </head>
@@ -57,13 +57,6 @@ $pageDesc = isset($pageDesc) ? $pageDesc : 'Anjum Iqbal - Free digital educator 
             <?php endforeach; ?>
 
             <a href="index.php#contact">Contact</a>
-
-            <div class="mobile-drawer-cta">
-                <a href="<?= clean($primaryYoutube) ?>" target="_blank" rel="noopener" class="btn btn-youtube" style="width: 100%; justify-content: center;">
-                    <?= get_social_icon_svg('youtube') ?>
-                    <span>Watch Free Lessons</span>
-                </a>
-            </div>
         </nav>
 
         <!-- Right Header Action Button -->

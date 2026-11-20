@@ -55,6 +55,6 @@ $footerPages = get_footer_pages();
 </footer>
 
 <!-- Interactive Scripts -->
-<script src="assets/js/main.js"></script>
+<script src="assets/js/main.js?v=<?= file_exists(__DIR__ . '/../assets/js/main.js') ? filemtime(__DIR__ . '/../assets/js/main.js') : '2.0' ?>"></script>
 </body>
 </html>
