@@ -83,6 +83,13 @@ $siteTitle = get_setting('site_title', 'Anjum Iqbal');
                     <span>Security & Password</span>
                 </a>
             </li>
+            <li>
+                <a href="guide.php" class="sidebar-link <?= ($currentScript === 'guide.php') ? 'active' : '' ?>">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor"/></svg>
+                    <span>Video Manual</span>
+                    <span class="adm-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--adm-emerald-light); font-size: 0.65rem; padding: 2px 6px;">Guide</span>
+                </a>
+            </li>
         </ul>
 
         <div class="sidebar-footer">

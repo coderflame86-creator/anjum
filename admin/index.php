@@ -61,6 +61,23 @@ include __DIR__ . '/admin_header.php';
     </div>
 </div>
 
+<!-- Video Manual Callout Banner -->
+<div class="adm-card" style="padding: 18px 24px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.09) 0%, rgba(6, 182, 212, 0.09) 100%); border-color: rgba(16, 185, 129, 0.25); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; margin-bottom: 24px;">
+    <div style="display: flex; align-items: center; gap: 14px;">
+        <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--adm-emerald); color: #0a0e17; display: grid; place-items: center; flex-shrink: 0; box-shadow: 0 0 20px rgba(16, 185, 129, 0.35);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><polygon points="8 5 19 12 8 19 8 5"/></svg>
+        </div>
+        <div>
+            <h4 style="color: #fff; font-size: 1rem; margin-bottom: 3px;">Admin Screencast Video Manual</h4>
+            <p style="font-size: 0.82rem; color: var(--adm-text-secondary); margin: 0;">Watch the interactive animated screencast tutorial or read the step-by-step operating manual for managing the website.</p>
+        </div>
+    </div>
+    <a href="guide.php" class="adm-btn adm-btn-primary adm-btn-sm" style="display: inline-flex; align-items: center; gap: 6px;">
+        <span>Open Video Manual</span>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+</div>
+
 <!-- Quick Actions Strip -->
 <div class="adm-card" style="padding: 20px 24px;">
     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
@@ -73,6 +90,10 @@ include __DIR__ . '/admin_header.php';
             <a href="messages.php" class="adm-btn adm-btn-secondary adm-btn-sm">View Inbox (<?= $unreadMessages ?>)</a>
             <a href="socials.php" class="adm-btn adm-btn-secondary adm-btn-sm">Edit Socials</a>
             <a href="settings.php" class="adm-btn adm-btn-secondary adm-btn-sm">Update Site Settings</a>
+            <a href="guide.php" class="adm-btn adm-btn-secondary adm-btn-sm" style="border-color: rgba(16, 185, 129, 0.4); color: var(--adm-emerald-light);">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="8 5 19 12 8 19 8 5"/></svg>
+                <span>Video Guide</span>
+            </a>
         </div>
     </div>
 </div>
