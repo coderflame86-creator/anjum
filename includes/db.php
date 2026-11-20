@@ -73,7 +73,7 @@ try {
             'hero_description' => 'Empowering you to master high-value digital skills, navigate real-world online earning, and build long-term independence — 100% free, honest, and step by step.',
             'primary_youtube' => 'https://youtube.com/@anjumiqbal',
             'primary_whatsapp' => 'https://whatsapp.com/channel/0029Va7o27jGJP8KmhGLJQ3x',
-            'contact_email' => 'contact.anjum3@gmail.com',
+            'contact_email' => 'contact@anjumiqbal.com',
             'scam_alert_banner' => '⚠️ Official Security Notice: Anjum Iqbal never charges any registration fees, asks for passwords or OTPs, or offers guaranteed returns. Beware of fake accounts.',
             'announcement_enabled' => '1',
             'about_heading' => 'Useful knowledge, shared with purpose.',
@@ -186,7 +186,7 @@ try {
 <p>We do not use tracking cookies for intrusive advertising. Basic session cookies may be used strictly for admin panel authentication and CSRF security.</p>
 
 <h3>Contact</h3>
-<p>For any questions regarding privacy, reach out at <a href="mailto:contact.anjum3@gmail.com">contact.anjum3@gmail.com</a>.</p>'
+<p>For any questions regarding privacy, reach out at <a href="mailto:contact@anjumiqbal.com">contact@anjumiqbal.com</a>.</p>'
             ],
             [
                 'title' => 'Disclaimer',

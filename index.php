@@ -10,7 +10,7 @@ $heroHeadline = get_setting('hero_headline', 'Learn Today. <span class="gradient
 $heroDesc = get_setting('hero_description', 'Empowering you to master high-value digital skills, discover genuine digital opportunities, and build long-term independence — 100% free, honest, and step by step.');
 $primaryYoutube = get_setting('primary_youtube', 'https://youtube.com/@anjumiqbal');
 $primaryWhatsapp = get_setting('primary_whatsapp', 'https://whatsapp.com/channel/0029Va7o27jGJP8KmhGLJQ3x');
-$contactEmail = get_setting('contact_email', 'contact.anjum3@gmail.com');
+$contactEmail = get_setting('contact_email', 'contact@anjumiqbal.com');
 $aboutHeading = get_setting('about_heading', 'Useful knowledge, shared with purpose.');
 $aboutBio = get_setting('about_bio', 'A friendly space for practical advice, digital skills, online opportunities, and everyday knowledge. The mission is to empower people with valuable skills, encourage continuous learning, and help individuals explore realistic ways to work from home, build independence, and improve their lives.');
 

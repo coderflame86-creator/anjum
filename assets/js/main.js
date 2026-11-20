@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (err) {
                 // If JSON fetch fails, submit traditionally
                 formAlert.className = 'form-alert error';
-                formAlert.innerHTML = '<strong>Notice:</strong> Please try again or email directly at contact.anjum3@gmail.com.';
+                formAlert.innerHTML = '<strong>Notice:</strong> Please try again or email directly at contact@anjumiqbal.com.';
                 formAlert.style.display = 'block';
             } finally {
                 submitBtn.disabled = false;
