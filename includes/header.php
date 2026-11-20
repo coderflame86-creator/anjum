@@ -57,16 +57,23 @@ $pageDesc = isset($pageDesc) ? $pageDesc : 'Anjum Iqbal - Free digital educator 
             <?php endforeach; ?>
 
             <a href="index.php#contact">Contact</a>
+
+            <div class="mobile-drawer-cta">
+                <a href="<?= clean($primaryYoutube) ?>" target="_blank" rel="noopener" class="btn btn-youtube" style="width: 100%; justify-content: center;">
+                    <?= get_social_icon_svg('youtube') ?>
+                    <span>Watch Free Lessons</span>
+                </a>
+            </div>
         </nav>
 
         <!-- Right Header Action Button -->
         <div class="nav-actions">
-            <a href="<?= clean($primaryYoutube) ?>" target="_blank" rel="noopener" class="btn btn-youtube btn-sm">
+            <a href="<?= clean($primaryYoutube) ?>" target="_blank" rel="noopener" class="btn btn-youtube btn-sm" title="Watch Free Lessons on YouTube" aria-label="Watch Free on YouTube">
                 <?= get_social_icon_svg('youtube') ?>
                 <span>Watch Free</span>
             </a>
             <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Navigation Menu">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
         </div>
     </div>

@@ -1,5 +1,6 @@
 data/sessions/*
 !data/sessions/.gitkeep
 *.log
+*.bak
 .DS_Store
 Thumbs.db

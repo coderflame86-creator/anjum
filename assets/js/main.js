@@ -19,9 +19,19 @@ document.addEventListener('DOMContentLoaded', () => {
             link.addEventListener('click', () => {
                 if (window.innerWidth <= 768) {
                     navLinks.classList.remove('open');
+                    mobileBtn.setAttribute('aria-expanded', 'false');
                     mobileBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
                 }
             });
+        });
+
+        // Close on tap outside
+        document.addEventListener('click', (e) => {
+            if (navLinks.classList.contains('open') && !navLinks.contains(e.target) && !mobileBtn.contains(e.target)) {
+                navLinks.classList.remove('open');
+                mobileBtn.setAttribute('aria-expanded', 'false');
+                mobileBtn.innerHTML = '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>';
+            }
         });
     }
 
